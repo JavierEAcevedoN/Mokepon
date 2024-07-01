@@ -24,10 +24,11 @@ body {
 
 .tarjetas, .tarjetas-ataques {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tarjeta-de-mokepon {
-    width: 180px;
     height: 100px;
     background: #EE4266;
     padding: 10px;
@@ -73,7 +74,7 @@ input:checked + label{
 }
 
 .boton-de-ataque {
-    width: 100px;
+    width: 70px;
     height: 70px;
     background: #EE4266;
     padding: 10px;
@@ -111,7 +112,7 @@ input:checked + label{
 
 .ataques {
     display: grid;
-    grid-template-columns: 100px 100px;
+    grid-template-columns: 120px 120px;
 }
 
 .ataques-jugador, .ataques-enemigo {

@@ -27,31 +27,27 @@ let ataqueMokeponEnemigo
 let inputHipodoge
 let inputCapipepo
 let inputRatigueya
-let botonFuego
-let botonAgua
-let botonTierra
 let botones = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
 let mascotaJugador
+let mascotaTipoJugador
+let mascotaTipoEnemigo
+let mascotaEnemigo
 let victoriasJugador = 0
 let victoriasEnemigo = 0
 // agregar la propiedad de tipo, para que dependiendo de la mascota que se elija, si es mas fuete que el oponente, tiene una ventaja
 class Mokepon {
-    constructor(nombre, foto, vida) {
+    constructor(nombre, foto, vida, tipo) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
+        this.tipo = tipo
         this.ataques = []
     }
 }
 
-let hipodoge = new Mokepon("Hipodoge", './assets/mokepons_mokepon_hipodoge_attack.webp', 5)
-
-let capipepo = new Mokepon("Capipepo", './assets/mokepons_mokepon_capipepo_attack.webp', 5)
-
-let ratigueya = new Mokepon("Ratigueya", './assets/mokepons_mokepon_ratigueya_attack.webp', 5)
-
+let hipodoge = new Mokepon("Hipodoge", './assets/mokepons_mokepon_hipodoge_attack.png', 5, "AGUA")
 hipodoge.ataques.push(
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '💧', id: 'boton-agua'},
@@ -60,6 +56,7 @@ hipodoge.ataques.push(
     {nombre: '🌱', id: 'boton-tierra'},
 )
 
+let capipepo = new Mokepon("Capipepo", './assets/mokepons_mokepon_capipepo_attack.png', 5, "TIERRA")
 capipepo.ataques.push(
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '🔥', id: 'boton-fuego'},
@@ -68,6 +65,7 @@ capipepo.ataques.push(
     {nombre: '🌱', id: 'boton-tierra'},
 )
 
+let ratigueya = new Mokepon("Ratigueya", './assets/mokepons_mokepon_ratigueya_attack.png', 5, "FUEGO")
 ratigueya.ataques.push(
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '🔥', id: 'boton-fuego'},
@@ -113,9 +111,18 @@ function seleccionarMascotaJugador() {
         mascotaJugador = inputRatigueya.id
     } else {
         alert('Selecciona una mascota')
+        location.reload()
     }
-    extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
+}
+
+function seleccionarMascotaEnemigo() {
+    let mascotaAleatoriaEnemigo = aleatorio(0,mokepones.length-1) 
+    mascotaEnemigo = mokepones[mascotaAleatoriaEnemigo]
+    spanMascotaEnemigo.innerHTML = mascotaEnemigo.nombre
+    ataqueMokeponEnemigo = mascotaEnemigo.ataques
+    mascotaTipoEnemigo = mascotaEnemigo.tipo
+    extraerAtaques(mascotaJugador)
 }
 
 function extraerAtaques(mascotaJugador) {
@@ -123,7 +130,27 @@ function extraerAtaques(mascotaJugador) {
     for (let i = 0; i < mokepones.length; i++) {
         if (mascotaJugador === mokepones[i].nombre) {
             ataques = mokepones[i].ataques
+            mascotaTipoJugador = mokepones[i].tipo
         } 
+    }
+    comprobarMascota(ataques)
+}
+
+function comprobarMascota(ataques) {
+    if (mascotaTipoJugador === "FUEGO" && mascotaTipoEnemigo === "TIERRA") {
+        ataques.push({nombre: '🔥', id: 'boton-fuego'},)
+    } else if (mascotaTipoJugador === "TIERRA" && mascotaTipoEnemigo === "FUEGO") {
+        ataqueMokeponEnemigo.push({nombre: '🔥', id: 'boton-fuego'},)
+    }
+    if (mascotaTipoJugador === "AGUA" && mascotaTipoEnemigo === "FUEGO") {
+        ataques.push({nombre: '💧', id: 'boton-agua'},)
+    } else if (mascotaTipoJugador === "FUEGO" && mascotaTipoEnemigo === "AGUA") {
+        ataqueMokeponEnemigo.push({nombre: '💧', id: 'boton-agua'},)
+    }
+    if (mascotaTipoJugador === "TIERRA" && mascotaTipoEnemigo === "AGUA") {
+        ataques.push({nombre: '🌱', id: 'boton-tierra'},)
+    } else if (mascotaTipoJugador === "AGUA" && mascotaTipoEnemigo === "TIERRA") {
+        ataqueMokeponEnemigo.push({nombre: '🌱', id: 'boton-tierra'},)
     }
     mostrarAtques(ataques)
 }
@@ -135,10 +162,8 @@ function mostrarAtques(ataques) {
         `
         contenedorAtaques.innerHTML += opcionDeAtaques
     })
-    botonFuego = document.getElementById('boton-fuego')
-    botonAgua = document.getElementById('boton-agua')
-    botonTierra = document.getElementById('boton-tierra')
     botones = document.querySelectorAll('.BAtaque')
+    secuenciaAtaque()
 }
 
 function secuenciaAtaque() {
@@ -165,23 +190,17 @@ function secuenciaAtaque() {
     })
 }
 
-function seleccionarMascotaEnemigo() {
-    let mascotaEnemigo = aleatorio(0,mokepones.length-1) 
-    spanMascotaEnemigo.innerHTML= mokepones[mascotaEnemigo].nombre
-    ataqueMokeponEnemigo = mokepones[mascotaEnemigo].ataques
-    secuenciaAtaque()
-}
-
 function seleccionarAtaqueEnemigo() {
-    // cambiar el atque dependiendo de lo que eliga el enemigo
     let ataqueEnemigoAleatorio = aleatorio(0, ataqueMokeponEnemigo.length-1)
-    if (ataqueEnemigoAleatorio == 0 || ataqueEnemigoAleatorio == 1) {
+    let ataqueSeleccionado = ataqueMokeponEnemigo[ataqueEnemigoAleatorio].nombre
+    if (ataqueSeleccionado === '🔥') {
         ataqueEnemigo.push('FUEGO')
-    } else if (ataqueEnemigoAleatorio == 3 || ataqueEnemigoAleatorio == 4) {
+    } else if (ataqueSeleccionado === '💧') {
         ataqueEnemigo.push('AGUA')
     } else {
         ataqueEnemigo.push('TIERRA')
-    }
+    }    
+    ataqueMokeponEnemigo.splice(ataqueEnemigoAleatorio,1)
     console.log(ataqueEnemigo)
     iniciarPelea()
 }
@@ -215,6 +234,7 @@ function combate() {
         }
     }
     revisarVictorias()
+    contenedorAtaques.style.display = 'none'
 }
 
 function revisarVictorias() {
