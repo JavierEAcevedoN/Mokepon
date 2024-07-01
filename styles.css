@@ -73,8 +73,8 @@ input:checked + label{
 }
 
 .boton-de-ataque {
-    width: 126px;
-    height: 60px;
+    width: 100px;
+    height: 70px;
     background: #EE4266;
     padding: 10px;
     box-sizing: border-box;
@@ -82,12 +82,12 @@ input:checked + label{
     border: 1px solid #FFD23F;
     border-radius: 20px;
     color: #FFFDCB;
-    font-size: 20px;
+    font-size: 24px;
     font-family: "Chakra Petch", sans-serif;
 }
 
 #mensajes {
-    width: 230px;
+    width: 360px;
     background: #FFD23F;
     padding: 20px;
     margin-top: 20px;
@@ -98,6 +98,7 @@ input:checked + label{
     border: 2px solid #FF8911;
     flex-direction: column;
     align-items: center;
+    font-size: 20px;
 }
 
 #boton-reiniciar {
@@ -105,6 +106,7 @@ input:checked + label{
     color: #EE4266;
     background: none;
     font-family: "Chakra Petch", sans-serif;
+    font-size: 20px;
 }
 
 .ataques {
