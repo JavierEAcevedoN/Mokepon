@@ -27,7 +27,10 @@ let ataqueMokeponEnemigo
 let inputHipodoge
 let inputCapipepo
 let inputRatigueya
-let botones = []
+let inputLasngostelvis
+let inputPydos
+let inputTucapalma
+let botonesAtaques = []
 let indexAtaqueJugador
 let indexAtaqueEnemigo
 let mascotaJugador
@@ -36,7 +39,7 @@ let mascotaTipoEnemigo
 let mascotaEnemigo
 let victoriasJugador = 0
 let victoriasEnemigo = 0
-// agregar la propiedad de tipo, para que dependiendo de la mascota que se elija, si es mas fuete que el oponente, tiene una ventaja
+
 class Mokepon {
     constructor(nombre, foto, vida, tipo) {
         this.nombre = nombre
@@ -58,23 +61,53 @@ hipodoge.ataques.push(
 
 let capipepo = new Mokepon("Capipepo", './assets/mokepons_mokepon_capipepo_attack.png', 5, "TIERRA")
 capipepo.ataques.push(
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '🔥', id: 'boton-fuego'},
-    {nombre: '🌱', id: 'boton-tierra'},
-    {nombre: '🌱', id: 'boton-tierra'},
-    {nombre: '🌱', id: 'boton-tierra'},
 )
 
 let ratigueya = new Mokepon("Ratigueya", './assets/mokepons_mokepon_ratigueya_attack.png', 5, "FUEGO")
 ratigueya.ataques.push(
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🔥', id: 'boton-fuego'},
+    {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🌱', id: 'boton-tierra'},
+)
+
+let lasngostelvis = new Mokepon("Langostelvis", './assets/mokepons_mokepon_langostelvis_attack.png', 6, "FUEGO")
+lasngostelvis.ataques.push(
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🔥', id: 'boton-fuego'},
     {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
 )
 
-mokepones.push(hipodoge, capipepo, ratigueya)
+let pydos = new Mokepon("Pydos", './assets/mokepons_mokepon_pydos_attack.png', 6, "AGUA")
+pydos.ataques.push(
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🔥', id: 'boton-fuego'},
+)
+
+let tucapalma = new Mokepon("Tucapalma", './assets/mokepons_mokepon_tucapalma_attack.png', 6, "TIERRA")
+tucapalma.ataques.push(
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '🌱', id: 'boton-tierra'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '💧', id: 'boton-agua'},
+    {nombre: '🔥', id: 'boton-fuego'},
+)
+
+mokepones.push(hipodoge, capipepo, ratigueya, lasngostelvis, pydos, tucapalma)
 
 function iniciarJuego() {
     mokepones.forEach((mokepon) => {
@@ -90,6 +123,9 @@ function iniciarJuego() {
     inputHipodoge = document.getElementById('Hipodoge')
     inputCapipepo = document.getElementById('Capipepo')
     inputRatigueya = document.getElementById('Ratigueya')
+    inputLasngostelvis = document.getElementById('Langostelvis')
+    inputPydos = document.getElementById('Pydos')
+    inputTucapalma = document.getElementById('Tucapalma')
     })
     seccionSeleccionarAtaque.style.display = 'none'
     seccionReiniciar.style.display = 'none'
@@ -109,6 +145,15 @@ function seleccionarMascotaJugador() {
     } else if (inputRatigueya.checked) {
         spanMascotaJugador.innerHTML = inputRatigueya.id
         mascotaJugador = inputRatigueya.id
+    } else if (inputLasngostelvis.checked) {
+        spanMascotaJugador.innerHTML = inputLasngostelvis.id
+        mascotaJugador = inputLasngostelvis.id
+    } else if (inputPydos.checked) {
+        spanMascotaJugador.innerHTML = inputPydos.id
+        mascotaJugador = inputPydos.id
+    } else if (inputTucapalma.checked) {
+        spanMascotaJugador.innerHTML = inputTucapalma.id
+        mascotaJugador = inputTucapalma.id
     } else {
         alert('Selecciona una mascota')
         location.reload()
@@ -162,12 +207,12 @@ function mostrarAtques(ataques) {
         `
         contenedorAtaques.innerHTML += opcionDeAtaques
     })
-    botones = document.querySelectorAll('.BAtaque')
+    botonesAtaques = document.querySelectorAll('.BAtaque')
     secuenciaAtaque()
 }
 
 function secuenciaAtaque() {
-    botones.forEach((boton) => {
+    botonesAtaques.forEach((boton) => {
         boton.addEventListener('click', (e) => {
             if (e.target.firstChild.textContent === '🔥') {
                 ataqueJugador.push('FUEGO')
